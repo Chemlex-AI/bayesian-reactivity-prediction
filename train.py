@@ -105,8 +105,8 @@ def main(args):
     m = Metrics(test_y, test_preds)
     acc, f1_macro, auc_roc = m.metric_for_binary_classification()
     print(f"Test accuracy: {acc * 100:.2f}%")
-    print(f"F1_macro: {f1_macro:.2f}")
-    print(f"AUC-ROC: {auc_roc:.2f}")
+    print(f"Test F1_macro: {f1_macro:.2f}")
+    print(f"Test AUC-ROC: {auc_roc:.2f}")
 
     if args.save_test:
         df_test = df[df[args.split_type] == "test"].reset_index(drop=True)
