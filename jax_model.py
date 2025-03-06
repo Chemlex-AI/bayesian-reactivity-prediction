@@ -85,11 +85,14 @@ class BNN_NUTS(object):
             self.net, self.samples, return_sites=["prob"])
         probs_posterior = self.predictive_probs(
             self.rng_key_predict, test_x, None)["prob"]
-
+        self.save_model("./models/BNN_NUTS.npz")
         predictions = np.array(probs_posterior.T)
         mean, predictive_uncertainty, aleatoric_uncertainty, epistemic_uncertainty = disentangle_uncertainty(
             predictions)
         return mean, predictive_uncertainty, aleatoric_uncertainty, epistemic_uncertainty
+
+    def save_model(self, save_path):
+        np.savez(save_path, **self.predictive_probs.posterior_samples)
 
 
 class BNN_SVI(object):
@@ -182,11 +185,15 @@ class BNN_SVI(object):
             self.guide, params=self.params, num_samples=num_models)
         posterior_samples = predictive(
             self.rng_key_predict, test_x, None, self.hidden_dims, 1)
-        predictive_probs = Predictive(
+        self.predictive_probs = Predictive(
             self.jax_model, posterior_samples, params=self.params, return_sites=["prob"])
-        probs_posterior = predictive_probs(
+        probs_posterior = self.predictive_probs(
             self.rng_key_predict, test_x, None, self.hidden_dims, 1)["prob"]
+        self.save_model("./models/BNN_SVI.npz")
         predictions = np.array(probs_posterior.T)
         mean, predictive_uncertainty, aleatoric_uncertainty, epistemic_uncertainty = disentangle_uncertainty(
             predictions)
         return mean, predictive_uncertainty, aleatoric_uncertainty, epistemic_uncertainty
+
+    def save_model(self, save_path):
+        np.savez(save_path, **self.predictive_probs.posterior_samples)

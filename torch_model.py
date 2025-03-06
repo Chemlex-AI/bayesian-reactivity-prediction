@@ -14,7 +14,7 @@ from utils import enable_dropout, disentangle_uncertainty
 
 
 class MLP(nn.Module):
-    def __init__(self, input_dims, hidden_dims, output_dims, dropout_rate=0.5, batch_norm=True):
+    def __init__(self, input_dims, hidden_dims, output_dims, dropout_rate=None, batch_norm=True):
         super(MLP, self).__init__()
         if batch_norm:
             self.feat_extractor = nn.Sequential(OrderedDict([
@@ -48,16 +48,21 @@ class BaseModel(nn.Module):
     def evaluate(self, *args, **kwargs):
         raise NotImplementedError
 
+    def save_model(self, save_path):
+        torch.save(self.state_dict(), save_path)
+
+    def load_model(self, load_path):
+        self.load_state_dict(torch.load(load_path))
+
 
 class Ensemble(BaseModel):
-    def __init__(self, input_dims, hidden_dims, output_dims, lr, num_nets, use_cuda=True):
+    def __init__(self, input_dims, hidden_dims, output_dims, num_nets, use_cuda=True):
         super().__init__()
         self.net = nn.ModuleList(
             [MLP(input_dims, hidden_dims, output_dims) for _ in range(num_nets)])
         self.use_cuda = use_cuda
         if use_cuda:
             self.cuda()
-        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
 
     def forward(self, x, mean=True):
         outputs = []
@@ -68,7 +73,8 @@ class Ensemble(BaseModel):
         else:
             return torch.stack(outputs).squeeze()
 
-    def train(self, epochs, train_loader):
+    def train(self, epochs, train_loader, lr):
+        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
         criterion = torch.nn.BCEWithLogitsLoss()
         self.net.train()
         for i in range(epochs):
@@ -88,6 +94,7 @@ class Ensemble(BaseModel):
 
             print("[Epochs: %04d] loss: %.4f" %
                   (i + 1, total_loss / len(train_loader)))
+        self.save_model("./models/Ensemble.pth")
 
     @torch.no_grad()
     def evaluate(self, test_x, num_forwards):
@@ -106,15 +113,14 @@ class Ensemble(BaseModel):
         return mean, predictive_uncertainty, aleatoric_uncertainty, epistemic_uncertainty
 
 
-class Deep_GP(BaseModel):
-    def __init__(self, input_dims, hidden_dims, output_dims, lr, num_data, train_loader, use_cuda=True):
+class DKLGP(BaseModel):
+    def __init__(self, input_dims, hidden_dims, output_dims, num_data, train_loader, use_cuda=True):
         super().__init__()
         self.net = self.__build_gpmodule(
             input_dims, hidden_dims, output_dims, num_data, train_loader)
         self.use_cuda = use_cuda
         if use_cuda:
             self.cuda()
-        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
 
     def __build_gpmodule(self, input_dims, hidden_dims, output_dims, num_data, train_loader):
         extractor = MLP(input_dims, hidden_dims, 10)
@@ -143,7 +149,8 @@ class Deep_GP(BaseModel):
 
         return gpmodule
 
-    def train(self, epochs, train_loader):
+    def train(self, epochs, train_loader, lr):
+        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
         elbo = TraceMeanField_ELBO()
         criterion = elbo.differentiable_loss
         for i in range(epochs):
@@ -160,6 +167,7 @@ class Deep_GP(BaseModel):
 
             print("[Epochs: %04d] loss: %.4f" %
                   (i + 1, total_loss / len(train_loader)))
+        self.save_model("./models/DKLGP.pth")
 
     @torch.no_grad()
     def evaluate(self, test_x, num_forwards):
@@ -179,16 +187,16 @@ class Deep_GP(BaseModel):
 
 
 class MCDropout(BaseModel):
-    def __init__(self, input_dims, hidden_dims, output_dims, lr, rate, use_cuda=True):
+    def __init__(self, input_dims, hidden_dims, output_dims, rate=None, use_cuda=True):
         super().__init__()
         self.net = MLP(input_dims, hidden_dims, output_dims,
                        dropout_rate=rate, batch_norm=False)
         self.use_cuda = use_cuda
         if use_cuda:
             self.cuda()
-        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
 
-    def train(self, epochs, train_loader):
+    def train(self, epochs, train_loader, lr):
+        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
         criterion = torch.nn.BCEWithLogitsLoss()
         self.net.train()
         for i in range(epochs):
@@ -207,6 +215,7 @@ class MCDropout(BaseModel):
                 self.optimizer.step()
             print("[Epochs: %04d] loss: %.4f" %
                   (i + 1, loss / len(train_loader)))
+        self.save_model("./models/MCDropout.pth")
 
     @torch.no_grad()
     def evaluate(self, test_x, num_forwards):
