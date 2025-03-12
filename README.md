@@ -55,6 +55,11 @@ python -m pip install -r requirements.txt
 ### Dataset Information
 The wetlab data will be released in `data/wetlab/Chemlex_Acidamine_Wetlab_Data.xlsx` following publication (currently available upon request). Demo data for conversions and splits are provided in this repository.
 
+We also provide public Suzuki HTE data, curated from datasets published by [D. T. Ahneman *et al.*](https://www.science.org/doi/10.1126/science.aar5169) and [A. B. Santanilla *et al.*](https://www.science.org/doi/10.1126/science.1259203), and utilized in a publication by [P. Schwaller](https://rxn4chemistry.github.io/rxn_yields/).
+
+You can download all used features [here](https://drive.google.com/drive/folders/1yAW-vPn8cIvr2b8iHesoaLLWM3BKA3kl?usp=drive_link) and put them in `data/`.
+
+
 ### Available Split Types
 | Dataset Split | Description |
 |--------------|-------------|
@@ -63,9 +68,6 @@ The wetlab data will be released in `data/wetlab/Chemlex_Acidamine_Wetlab_Data.x
 |Stratified_Split_Both_Unseen| Split the dataset into training/test set (70%/30%) with no overlap between both reactants (no test reactants in the training set).|
 
 
-We also provide public Suzuki HTE data, curated from datasets published by [D. T. Ahneman *et al.*](https://www.science.org/doi/10.1126/science.aar5169) and [A. B. Santanilla *et al.*](https://www.science.org/doi/10.1126/science.1259203), and utilized in a publication by [P. Schwaller](https://rxn4chemistry.github.io/rxn_yields/).
-
-You can download all used features [here](https://drive.google.com/drive/folders/1yAW-vPn8cIvr2b8iHesoaLLWM3BKA3kl?usp=drive_link) and put them in `data/`
 
 ## Usage
 
