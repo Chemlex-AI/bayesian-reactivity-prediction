@@ -53,7 +53,7 @@ python -m pip install -r requirements.txt
 ## Data
 
 ### Dataset Information
-The wetlab data will be released in `data/Chemlex_Acidamine_Wetlab_Data.xlsx` following publication (currently available upon request). Demo data for conversions and splits are provided in this repository.
+The wetlab data will be released in `data/wetlab/Chemlex_Acidamine_Wetlab_Data.xlsx` following publication (currently available upon request). Demo data for conversions and splits are provided in this repository.
 
 ### Available Split Types
 | Dataset Split | Description |
@@ -64,6 +64,8 @@ The wetlab data will be released in `data/Chemlex_Acidamine_Wetlab_Data.xlsx` fo
 
 
 We also provide public Suzuki HTE data, curated from datasets published by [D. T. Ahneman *et al.*](https://www.science.org/doi/10.1126/science.aar5169) and [A. B. Santanilla *et al.*](https://www.science.org/doi/10.1126/science.1259203), and utilized in a publication by [P. Schwaller](https://rxn4chemistry.github.io/rxn_yields/).
+
+You can download all used features [here](https://drive.google.com/drive/folders/1yAW-vPn8cIvr2b8iHesoaLLWM3BKA3kl?usp=drive_link) and put them in `data/`
 
 ## Usage
 
@@ -113,6 +115,7 @@ Additionally, training generates `{split_type}_{model_type}_predictions_uncertai
 
 
 ### Inference
+You can download the trained models [here](https://drive.google.com/drive/folders/1yAW-vPn8cIvr2b8iHesoaLLWM3BKA3kl?usp=drive_link).
 ```bash
 python inference.py --rxn <RXN_SMILES>
 

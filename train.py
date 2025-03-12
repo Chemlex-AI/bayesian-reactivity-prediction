@@ -40,7 +40,7 @@ def _parse_args():
                         help="Path to fingerprint data file")
 
     # Model settings
-    parser.add_argument("--model_type", type=str, default="MCDropout",
+    parser.add_argument("--model_type", type=str, default="BNN_NUTS",
                         choices=["BNN_SVI", "MCDropout", "Ensemble",
                                  "DKLGP", "BNN_NUTS"],
                         help="Type of model to train")
