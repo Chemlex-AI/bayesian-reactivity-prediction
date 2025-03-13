@@ -84,19 +84,19 @@ You can download all used features [here](https://drive.google.com/drive/folders
 ### Training
 ```bash
 # BNN_NUTS
-python train.py --model_type BNN_NUTS --split_type <SPLIT_TYPE>
+python train.py --model_type BNN_NUTS --split_type <SPLIT_TYPE> --seed 666
 
 # BNN_SVI
-python train.py --model_type BNN_SVI --lr 0.1 --split_type <SPLIT_TYPE>
+python train.py --model_type BNN_SVI --lr 0.1 --split_type <SPLIT_TYPE> --seed 666
 
 # MCDropout
-python train.py --model_type MCDropout --lr 3e-3 --split_type <SPLIT_TYPE>
+python train.py --model_type MCDropout --lr 3e-3 --split_type <SPLIT_TYPE> --seed 666
 
 # Ensemble
-python train.py --model_type Ensemble --lr 3e-4 --split_type <SPLIT_TYPE>
+python train.py --model_type Ensemble --lr 3e-4 --split_type <SPLIT_TYPE> --seed 666
 
 # Deep Gaussian Process
-python train.py --model_type DKLGP --lr 3e-3 --split_type <SPLIT_TYPE>
+python train.py --model_type DKLGP --lr 3e-3 --split_type <SPLIT_TYPE> --seed 666
 ```
 
 ### Output Format
