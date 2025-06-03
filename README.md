@@ -53,7 +53,7 @@ python -m pip install -r requirements.txt
 ## Data
 
 ### Dataset Information
-The wetlab data will be released in `data/wetlab/Chemlex_Acidamine_Wetlab_Data.xlsx` following publication (currently available upon request). Demo data for conversions and splits are provided in this repository.
+The complete wetlab data are available [here](https://doi.org/10.5281/zenodo.15401035).
 
 We also provide public Suzuki HTE data, curated from datasets published by [D. T. Ahneman *et al.*](https://www.science.org/doi/10.1126/science.aar5169) and [A. B. Santanilla *et al.*](https://www.science.org/doi/10.1126/science.1259203), and utilized in a publication by [P. Schwaller](https://rxn4chemistry.github.io/rxn_yields/).
 
