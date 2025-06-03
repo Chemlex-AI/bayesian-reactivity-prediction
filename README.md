@@ -3,7 +3,7 @@
 ## Overview
 Code & Data release of paper:
 
-[**Towards Global Feasibility Prediction and Robustness Estimation of Organic Chemical Reactions with High Throughput Experimentation Data and Bayesian Deep Learning**](https://chemrxiv.org/engage/chemrxiv/article-details/66a8e186c9c6a5c07a7f6966)
+[**Towards global reaction feasibility and robustness prediction with high throughput data and bayesian deep learning**](https://www.nature.com/articles/s41467-025-59812-0)
 
 ## Introduction
 This repo provides reactivity prediction and uncertainty estimation for wetlab data. The project implements a binary classification model to predict chemical reaction feasibility, featuring five uncertainty estimation methods:
@@ -139,3 +139,20 @@ python inference.py --rxn <RXN_SMILES>
 - Provide clear descriptions
 - Include reproduction steps
 - Add system information
+
+## Citation
+
+If you find our work useful in your research, please consider citing:
+
+```bibtex
+@article{zhong2025towards,
+  title={Towards global reaction feasibility and robustness prediction with high throughput data and bayesian deep learning},
+  author={Zhong, Haowen and Liu, Yilan and Sun, Haibin and Liu, Yuru and Zhang, Rentao and Li, Baochen and Yang, Yi and Huang, Yuqing and Yang, Fei and Mak, Frankie S and others},
+  journal={Nature Communications},
+  volume={16},
+  number={1},
+  pages={1--11},
+  year={2025},
+  publisher={Nature Publishing Group}
+}
+```
